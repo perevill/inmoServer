@@ -6,6 +6,8 @@
 package com.ausias.inmo.repository;
 
 import com.ausias.inmo.entity.FavoritoEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -14,4 +16,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface FavoritoRepository extends JpaRepository<FavoritoEntity, Long> {
     
+    	Page<FavoritoEntity> findByViviendaId(Long idvivienda, Pageable oPageable);
+
+        Page<FavoritoEntity> findByUsuarioId(Long idusuario, Pageable oPageable);
+
 }

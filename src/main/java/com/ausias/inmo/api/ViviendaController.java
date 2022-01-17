@@ -1,8 +1,8 @@
 package com.ausias.inmo.api;
 
-import com.ausias.inmo.entity.CiudadEntity;
 import com.ausias.inmo.entity.UsuarioEntity;
-import com.ausias.inmo.repository.CiudadRepository;
+import com.ausias.inmo.entity.ViviendaEntity;
+import com.ausias.inmo.repository.ViviendaRepository;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,11 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/ciudad")
-public class CiudadController {
+@RequestMapping("/vivienda")
+public class ViviendaController {
 
     @Autowired
-    CiudadRepository oCiudadRepository;
+    ViviendaRepository oViviendaRepository;
 
     /*@Autowired
     TipoViviendaService oTipoProductoService;*/
@@ -35,49 +35,50 @@ public class CiudadController {
     HttpSession oHttpSession;
 
     @GetMapping("/{id}")
-    public ResponseEntity<CiudadEntity> get(@PathVariable(value = "id") Long id) {
-        if (oCiudadRepository.existsById(id)) {
-            return new ResponseEntity<CiudadEntity>(oCiudadRepository.getById(id), HttpStatus.OK);
+    public ResponseEntity<ViviendaEntity> get(@PathVariable(value = "id") Long id) {
+        if (oViviendaRepository.existsById(id)) {
+            return new ResponseEntity<ViviendaEntity>(oViviendaRepository.getById(id), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("")
-    public ResponseEntity<Page<CiudadEntity>> getPage(@PageableDefault(page = 0, size = 10, direction = Sort.Direction.DESC) Pageable oPageable,
+    public ResponseEntity<Page<ViviendaEntity>> getPage(@PageableDefault(page = 0, size = 10, direction = Sort.Direction.DESC) Pageable oPageable,
            @RequestParam(name = "filter", required = false) String strFilter) {
-        Page<CiudadEntity> oPage = null;
+        Page<ViviendaEntity> oPage = null;
         if (strFilter != null) {
-            oPage = oCiudadRepository.findByNombreIgnoreCaseContaining(strFilter, oPageable);
+            oPage = oViviendaRepository.findByUbicacionIgnoreCaseContaining(strFilter, oPageable);
         } else {
-            oPage = oCiudadRepository.findAll(oPageable);
+            oPage = oViviendaRepository.findAll(oPageable);
         }
         return new ResponseEntity<>(oPage, HttpStatus.OK);
     }
 
     @GetMapping("/count")
     public ResponseEntity<Long> count() {
-        return new ResponseEntity<Long>(oCiudadRepository.count(), HttpStatus.OK);
+        return new ResponseEntity<Long>(oViviendaRepository.count(), HttpStatus.OK);
     }
 
     @GetMapping("/filter/{filtro}")
-    public ResponseEntity<Page<CiudadEntity>> getFilteredPage(@PathVariable(value = "filtro") String sfiltro, @PageableDefault(page = 0, size = 10, direction = Sort.Direction.ASC) Pageable oPageable) {
-        Page<CiudadEntity> oPage = null;
-        oPage = oCiudadRepository.findByNombreIgnoreCaseContaining(sfiltro, oPageable);
-        return new ResponseEntity<Page<CiudadEntity>>(oPage, HttpStatus.OK);
+    public ResponseEntity<Page<ViviendaEntity>> getFilteredPage(@PathVariable(value = "filtro") String sfiltro, @PageableDefault(page = 0, size = 10, direction = Sort.Direction.ASC) Pageable oPageable) {
+        Page<ViviendaEntity> oPage = null;
+        oPage = oViviendaRepository.findByUbicacionIgnoreCaseContaining(sfiltro, oPageable);
+        return new ResponseEntity<Page<ViviendaEntity>>(oPage, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
 
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
+        ViviendaEntity oViviendaEntity = oViviendaRepository.getById(id);
         UsuarioEntity oSessionUsuarioEntity = (UsuarioEntity) oHttpSession.getAttribute("usuario");
         if (oSessionUsuarioEntity == null) {
             return new ResponseEntity<Long>(0L, HttpStatus.UNAUTHORIZED);
         } else {
-            if (oSessionUsuarioEntity.getTipousuario().getId() == 1) {
-                if (oCiudadRepository.existsById(id)) {
-                    oCiudadRepository.deleteById(id);
-                    if (oCiudadRepository.existsById(id)) {
+            if (oSessionUsuarioEntity.getTipousuario().getId() == 1 || oViviendaEntity.getUsuario().getId()==oSessionUsuarioEntity.getId()) {
+                if (oViviendaRepository.existsById(id)) {
+                    oViviendaRepository.deleteById(id);
+                    if (oViviendaRepository.existsById(id)) {
                         return new ResponseEntity<Long>(0L, HttpStatus.NOT_MODIFIED);
                     } else {
                         return new ResponseEntity<Long>(id, HttpStatus.OK);
@@ -92,35 +93,33 @@ public class CiudadController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> create(@RequestBody CiudadEntity oCiudadEntity
+    public ResponseEntity<?> create(@RequestBody ViviendaEntity oViviendaEntity
     ) {
         UsuarioEntity oSessionUsuarioEntity = (UsuarioEntity) oHttpSession.getAttribute("usuario");
         if (oSessionUsuarioEntity == null) {
             return new ResponseEntity<Long>(0L, HttpStatus.UNAUTHORIZED);
         } else {
-            if (oSessionUsuarioEntity.getTipousuario().getId() == 1) {
-                if (oSessionUsuarioEntity.getTipousuario().getId() == 1) {
-                    oCiudadEntity.setId(null);
-                    return new ResponseEntity<CiudadEntity>(oCiudadRepository.save(oCiudadEntity), HttpStatus.OK);
+            if (oSessionUsuarioEntity.getTipousuario().getId() == 1 || oViviendaEntity.getUsuario().getId()==oSessionUsuarioEntity.getId()) {
+                
+                    oViviendaEntity.setId(null);
+                    return new ResponseEntity<ViviendaEntity>(oViviendaRepository.save(oViviendaEntity), HttpStatus.OK);
                 } else {
                     return new ResponseEntity<Long>(0L, HttpStatus.UNAUTHORIZED);
                 }
-            } else {
-                return new ResponseEntity<Long>(0L, HttpStatus.UNAUTHORIZED);
-            }
+            
         }
     }
 
     @PutMapping("/")
-    public ResponseEntity<?> update(@RequestBody CiudadEntity oCiudadEntity
+    public ResponseEntity<?> update(@RequestBody ViviendaEntity oViviendaEntity
     ) {
         UsuarioEntity oSessionUsuarioEntity = (UsuarioEntity) oHttpSession.getAttribute("usuario");
         if (oSessionUsuarioEntity == null) {
             return new ResponseEntity<Long>(0L, HttpStatus.UNAUTHORIZED);
         } else {
-            if (oSessionUsuarioEntity.getTipousuario().getId() == 1) {
-                if (oCiudadRepository.existsById(oCiudadEntity.getId())) {
-                    return new ResponseEntity<CiudadEntity>(oCiudadRepository.save(oCiudadEntity), HttpStatus.OK);
+            if (oSessionUsuarioEntity.getTipousuario().getId() == 1 || oViviendaEntity.getUsuario().getId()==oSessionUsuarioEntity.getId()) {
+                if (oViviendaRepository.existsById(oViviendaEntity.getId())) {
+                    return new ResponseEntity<ViviendaEntity>(oViviendaRepository.save(oViviendaEntity), HttpStatus.OK);
                 } else {
                     return new ResponseEntity<Long>(0L, HttpStatus.NOT_MODIFIED);
                 }

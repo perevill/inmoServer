@@ -29,9 +29,7 @@ public class FavoritoEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private int cantidad;
-    private double precio;
-
+   
     @ManyToOne
     @JoinColumn(name = "idvivienda")
     private ViviendaEntity vivienda;
