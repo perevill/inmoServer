@@ -38,11 +38,10 @@ public class UsuarioEntity implements Serializable {
     private String tlf;
     private String codpostal;
     private String direccion;
-    
 
-    /**@JsonIgnore
-    private String token;*/
-
+    /**
+     * @JsonIgnore private String token;
+     */
     private boolean validado;
 
     @ManyToOne
@@ -51,7 +50,10 @@ public class UsuarioEntity implements Serializable {
 
     @OneToMany(mappedBy = "usuario")
     private List<FavoritoEntity> favoritos = new ArrayList<>();
-   
+
+    @OneToMany(mappedBy = "usuario")
+    private List<ViviendaEntity> viviendas = new ArrayList<>();
+
     public UsuarioEntity() {
     }
 
@@ -138,7 +140,6 @@ public class UsuarioEntity implements Serializable {
     public void setToken(String token) {
         this.token = token;
     }*/
-
     public boolean isValidado() {
         return validado;
     }
@@ -170,7 +171,7 @@ public class UsuarioEntity implements Serializable {
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
-    
+
 
     /*public boolean isActivo() {
         return activo;
@@ -179,7 +180,6 @@ public class UsuarioEntity implements Serializable {
     public void setActivo(boolean activo) {
         this.activo = activo;
     }*/
-
     public TipoUsuarioEntity getTipousuario() {
         return tipousuario;
     }
@@ -192,5 +192,8 @@ public class UsuarioEntity implements Serializable {
         return favoritos.size();
     }
 
-   
+    public int getViviendas() {
+        return viviendas.size();
+    }
+
 }
