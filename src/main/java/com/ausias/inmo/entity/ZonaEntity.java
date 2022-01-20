@@ -37,8 +37,8 @@ public class ZonaEntity {
     
 
     @ManyToOne
-    @JoinColumn(name = "idciudad")
-    private CiudadEntity ciudad;
+    @JoinColumn(name = "idcomarca")
+    private ComarcaEntity comarca;
 
     /*@OneToMany(mappedBy = "producto")
     private List<CarritoEntity> carritos = new ArrayList<>();
@@ -85,12 +85,12 @@ public class ZonaEntity {
         return compras.size();
     } */
 
-    public CiudadEntity getCiudad() {
-        return ciudad;
+    public ComarcaEntity getComarca() {
+        return comarca;
     }
 
-    public void setCiudad(CiudadEntity ciudad) {
-        this.ciudad = ciudad;
+    public void setComarca(ComarcaEntity comarca) {
+        this.comarca = comarca;
     }
 
 }

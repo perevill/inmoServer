@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/ciudad")
-public class CiudadController {
+@RequestMapping("/comarca")
+public class ComarcaController {
 
     @Autowired
     CiudadRepository oCiudadRepository;

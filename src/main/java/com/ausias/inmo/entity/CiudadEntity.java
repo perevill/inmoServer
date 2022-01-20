@@ -30,7 +30,7 @@ public class CiudadEntity {
     private String nombre;
 
     @OneToMany(mappedBy = "ciudad")
-    private List<ZonaEntity> zonas = new ArrayList<>();
+    private List<ComarcaEntity> comarcas = new ArrayList<>();
 
     public CiudadEntity() {
     }   
@@ -52,6 +52,6 @@ public class CiudadEntity {
     }
 
     public int getZonas() {
-        return zonas.size();
+        return comarcas.size();
     }
 }

@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -20,21 +22,25 @@ import javax.persistence.Table;
  * @author a023849364c
  */
 @Entity
-@Table(name = "ciudad")
+@Table(name = "comarca")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class CiudadEntity {
+public class ComarcaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
 
-    @OneToMany(mappedBy = "ciudad")
+    @ManyToOne
+    @JoinColumn(name = "idciudad")
+    private CiudadEntity ciudad;
+
+    @OneToMany(mappedBy = "comarca")
     private List<ZonaEntity> zonas = new ArrayList<>();
 
-    public CiudadEntity() {
-    }   
-    
+    public ComarcaEntity() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -49,6 +55,14 @@ public class CiudadEntity {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public CiudadEntity getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(CiudadEntity ciudad) {
+        this.ciudad = ciudad;
     }
 
     public int getZonas() {

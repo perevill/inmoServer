@@ -15,7 +15,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author a023849364c
  */
-public interface CiudadRepository extends JpaRepository<CiudadEntity, Long>{
+public interface ComarcaRepository extends JpaRepository<CiudadEntity, Long>{
         public Page<CiudadEntity> findByNombreIgnoreCaseContaining(String strFilter, Pageable oPageable);
 
     public Page<CiudadEntity> findById(Long longCiudad, Pageable oPageable);
