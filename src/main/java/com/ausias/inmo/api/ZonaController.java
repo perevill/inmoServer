@@ -59,6 +59,7 @@ public class ZonaController {
     public ResponseEntity<Long> count() {
         return new ResponseEntity<Long>(oZonaRepository.count(), HttpStatus.OK);
     }
+    
 
     @GetMapping("/filter/{filtro}")
     public ResponseEntity<Page<ZonaEntity>> getFilteredPage(@PathVariable(value = "filtro") String sfiltro, @PageableDefault(page = 0, size = 10, direction = Sort.Direction.ASC) Pageable oPageable) {

@@ -62,6 +62,9 @@ public class ViviendaEntity {
     @OneToMany(mappedBy = "vivienda")
     private List<FavoritoEntity> favoritos = new ArrayList<>();
     
+    @OneToMany(mappedBy = "vivienda")
+    private List<FileEntity> imagenes = new ArrayList<>();
+    
     public ViviendaEntity() {
     }
             
@@ -203,7 +206,9 @@ public class ViviendaEntity {
     public int getFavoritos() {
         return favoritos.size();
     }
-   
+   public int getImagenes() {
+        return imagenes.size();
+    }
 
 }
 
