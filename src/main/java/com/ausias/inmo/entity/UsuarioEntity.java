@@ -48,11 +48,11 @@ public class UsuarioEntity implements Serializable {
     @JoinColumn(name = "idtipousuario")
     private TipoUsuarioEntity tipousuario;
 
-    @OneToMany(mappedBy = "usuario")
-    private List<FavoritoEntity> favoritos = new ArrayList<>();
+   @OneToMany(mappedBy = "usuario")
+   private List<FavoritoEntity> favoritos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "usuario")
-    private List<ViviendaEntity> viviendas = new ArrayList<>();
+    //@OneToMany(mappedBy = "usuario")
+    //private List<ViviendaEntity> viviendas = new ArrayList<>();
 
     public UsuarioEntity() {
     }
@@ -188,12 +188,12 @@ public class UsuarioEntity implements Serializable {
         this.tipousuario = tipousuario;
     }
 
-    public int getFavoritos() {
+   public int getFavoritos() {
         return favoritos.size();
     }
 
-    public int getViviendas() {
+    /*public int getViviendas() {
         return viviendas.size();
-    }
+    }*/
 
 }

@@ -45,6 +45,7 @@ public class ViviendaEntity {
     private Boolean comprar;
     private Boolean alquilar;
     private Boolean obranueva;
+    private String plano;
 
 
     @ManyToOne
@@ -59,11 +60,11 @@ public class ViviendaEntity {
     @JoinColumn(name = "idanunciante")
     private UsuarioEntity usuario;
 
-    @OneToMany(mappedBy = "vivienda")
-    private List<FavoritoEntity> favoritos = new ArrayList<>();
+    //@OneToMany(mappedBy = "vivienda")
+    //private List<FavoritoEntity> favoritos = new ArrayList<>();
     
-    @OneToMany(mappedBy = "vivienda")
-    private List<FileEntity> imagenes = new ArrayList<>();
+   // @OneToMany(mappedBy = "vivienda")
+   // private List<FileEntity> imagenes = new ArrayList<>();
     
     public ViviendaEntity() {
     }
@@ -203,12 +204,12 @@ public class ViviendaEntity {
     public void setUsuario(UsuarioEntity usuario) {
         this.usuario = usuario;
     }
-    public int getFavoritos() {
-        return favoritos.size();
-    }
-   public int getImagenes() {
-        return imagenes.size();
-    }
+//    public int getFavoritos() {
+//        return favoritos.size();
+//    }
+//   public int getImagenes() {
+//        return imagenes.size();
+//    }
 
 }
 

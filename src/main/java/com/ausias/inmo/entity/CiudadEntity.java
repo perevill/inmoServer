@@ -51,7 +51,7 @@ public class CiudadEntity {
         this.nombre = nombre;
     }
 
-    public int getZonas() {
+    public int getComarcas() {
         return comarcas.size();
     }
 }
