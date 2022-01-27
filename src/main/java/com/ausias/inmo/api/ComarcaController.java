@@ -1,8 +1,8 @@
 package com.ausias.inmo.api;
 
-import com.ausias.inmo.entity.CiudadEntity;
+import com.ausias.inmo.entity.ComarcaEntity;
 import com.ausias.inmo.entity.UsuarioEntity;
-import com.ausias.inmo.repository.CiudadRepository;
+import com.ausias.inmo.repository.ComarcaRepository;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ComarcaController {
 
     @Autowired
-    CiudadRepository oCiudadRepository;
+    ComarcaRepository oComarcaRepository;
 
     /*@Autowired
     TipoViviendaService oTipoProductoService;*/
@@ -35,36 +35,36 @@ public class ComarcaController {
     HttpSession oHttpSession;
 
     @GetMapping("/{id}")
-    public ResponseEntity<CiudadEntity> get(@PathVariable(value = "id") Long id) {
-        if (oCiudadRepository.existsById(id)) {
-            return new ResponseEntity<CiudadEntity>(oCiudadRepository.getById(id), HttpStatus.OK);
+    public ResponseEntity<ComarcaEntity> get(@PathVariable(value = "id") Long id) {
+        if (oComarcaRepository.existsById(id)) {
+            return new ResponseEntity<ComarcaEntity>(oComarcaRepository.getById(id), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("")
-    public ResponseEntity<Page<CiudadEntity>> getPage(@PageableDefault(page = 0, size = 10, direction = Sort.Direction.DESC) Pageable oPageable,
+    public ResponseEntity<Page<ComarcaEntity>> getPage(@PageableDefault(page = 0, size = 10, direction = Sort.Direction.DESC) Pageable oPageable,
            @RequestParam(name = "filter", required = false) String strFilter) {
-        Page<CiudadEntity> oPage = null;
+        Page<ComarcaEntity> oPage = null;
         if (strFilter != null) {
-            oPage = oCiudadRepository.findByNombreIgnoreCaseContaining(strFilter, oPageable);
+            oPage = oComarcaRepository.findByNombreIgnoreCaseContaining(strFilter, oPageable);
         } else {
-            oPage = oCiudadRepository.findAll(oPageable);
+            oPage = oComarcaRepository.findAll(oPageable);
         }
         return new ResponseEntity<>(oPage, HttpStatus.OK);
     }
 
     @GetMapping("/count")
     public ResponseEntity<Long> count() {
-        return new ResponseEntity<Long>(oCiudadRepository.count(), HttpStatus.OK);
+        return new ResponseEntity<Long>(oComarcaRepository.count(), HttpStatus.OK);
     }
 
     @GetMapping("/filter/{filtro}")
-    public ResponseEntity<Page<CiudadEntity>> getFilteredPage(@PathVariable(value = "filtro") String sfiltro, @PageableDefault(page = 0, size = 10, direction = Sort.Direction.ASC) Pageable oPageable) {
-        Page<CiudadEntity> oPage = null;
-        oPage = oCiudadRepository.findByNombreIgnoreCaseContaining(sfiltro, oPageable);
-        return new ResponseEntity<Page<CiudadEntity>>(oPage, HttpStatus.OK);
+    public ResponseEntity<Page<ComarcaEntity>> getFilteredPage(@PathVariable(value = "filtro") String sfiltro, @PageableDefault(page = 0, size = 10, direction = Sort.Direction.ASC) Pageable oPageable) {
+        Page<ComarcaEntity> oPage = null;
+        oPage = oComarcaRepository.findByNombreIgnoreCaseContaining(sfiltro, oPageable);
+        return new ResponseEntity<Page<ComarcaEntity>>(oPage, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -75,9 +75,9 @@ public class ComarcaController {
             return new ResponseEntity<Long>(0L, HttpStatus.UNAUTHORIZED);
         } else {
             if (oSessionUsuarioEntity.getTipousuario().getId() == 1) {
-                if (oCiudadRepository.existsById(id)) {
-                    oCiudadRepository.deleteById(id);
-                    if (oCiudadRepository.existsById(id)) {
+                if (oComarcaRepository.existsById(id)) {
+                    oComarcaRepository.deleteById(id);
+                    if (oComarcaRepository.existsById(id)) {
                         return new ResponseEntity<Long>(0L, HttpStatus.NOT_MODIFIED);
                     } else {
                         return new ResponseEntity<Long>(id, HttpStatus.OK);
@@ -92,7 +92,7 @@ public class ComarcaController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> create(@RequestBody CiudadEntity oCiudadEntity
+    public ResponseEntity<?> create(@RequestBody ComarcaEntity oComarcaEntity
     ) {
         UsuarioEntity oSessionUsuarioEntity = (UsuarioEntity) oHttpSession.getAttribute("usuario");
         if (oSessionUsuarioEntity == null) {
@@ -100,8 +100,8 @@ public class ComarcaController {
         } else {
             if (oSessionUsuarioEntity.getTipousuario().getId() == 1) {
                 if (oSessionUsuarioEntity.getTipousuario().getId() == 1) {
-                    oCiudadEntity.setId(null);
-                    return new ResponseEntity<CiudadEntity>(oCiudadRepository.save(oCiudadEntity), HttpStatus.OK);
+                    oComarcaEntity.setId(null);
+                    return new ResponseEntity<ComarcaEntity>(oComarcaRepository.save(oComarcaEntity), HttpStatus.OK);
                 } else {
                     return new ResponseEntity<Long>(0L, HttpStatus.UNAUTHORIZED);
                 }
@@ -112,15 +112,15 @@ public class ComarcaController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<?> update(@RequestBody CiudadEntity oCiudadEntity
+    public ResponseEntity<?> update(@RequestBody ComarcaEntity oComarcaEntity
     ) {
         UsuarioEntity oSessionUsuarioEntity = (UsuarioEntity) oHttpSession.getAttribute("usuario");
         if (oSessionUsuarioEntity == null) {
             return new ResponseEntity<Long>(0L, HttpStatus.UNAUTHORIZED);
         } else {
             if (oSessionUsuarioEntity.getTipousuario().getId() == 1) {
-                if (oCiudadRepository.existsById(oCiudadEntity.getId())) {
-                    return new ResponseEntity<CiudadEntity>(oCiudadRepository.save(oCiudadEntity), HttpStatus.OK);
+                if (oComarcaRepository.existsById(oComarcaEntity.getId())) {
+                    return new ResponseEntity<ComarcaEntity>(oComarcaRepository.save(oComarcaEntity), HttpStatus.OK);
                 } else {
                     return new ResponseEntity<Long>(0L, HttpStatus.NOT_MODIFIED);
                 }
