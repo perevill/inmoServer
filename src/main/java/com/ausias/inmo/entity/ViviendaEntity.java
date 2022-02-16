@@ -197,6 +197,16 @@ public class ViviendaEntity {
         this.zona = zona;
     }
 
+    public String getPlano() {
+        return plano;
+    }
+
+    public void setPlano(String plano) {
+        this.plano = plano;
+    }
+    
+    
+
     public UsuarioEntity getUsuario() {
         return usuario;
     }

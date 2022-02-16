@@ -3,6 +3,7 @@ package com.ausias.inmo.api;
 import com.ausias.inmo.entity.CiudadEntity;
 import com.ausias.inmo.entity.UsuarioEntity;
 import com.ausias.inmo.repository.CiudadRepository;
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,7 +31,6 @@ public class CiudadController {
 
     /*@Autowired
     TipoViviendaService oTipoProductoService;*/
-
     @Autowired
     HttpSession oHttpSession;
 
@@ -45,7 +45,19 @@ public class CiudadController {
 
     @GetMapping("")
     public ResponseEntity<Page<CiudadEntity>> getPage(@PageableDefault(page = 0, size = 10, direction = Sort.Direction.DESC) Pageable oPageable,
-           @RequestParam(name = "filter", required = false) String strFilter) {
+            @RequestParam(name = "filter", required = false) String strFilter) {
+        Page<CiudadEntity> oPage = null;
+        if (strFilter != null) {
+            oPage = oCiudadRepository.findByNombreIgnoreCaseContaining(strFilter, oPageable);
+        } else {
+            oPage = oCiudadRepository.findAll(oPageable);
+        }
+        return new ResponseEntity<>(oPage, HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<Page<CiudadEntity>> getall(@PageableDefault(page = 0, size = 50, direction = Sort.Direction.DESC) Pageable oPageable,
+            @RequestParam(name = "filter", required = false) String strFilter) {
         Page<CiudadEntity> oPage = null;
         if (strFilter != null) {
             oPage = oCiudadRepository.findByNombreIgnoreCaseContaining(strFilter, oPageable);
@@ -170,5 +182,4 @@ public class CiudadController {
             }
         }
     }*/
-
 }

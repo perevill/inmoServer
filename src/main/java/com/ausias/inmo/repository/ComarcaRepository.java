@@ -8,6 +8,7 @@ package com.ausias.inmo.repository;
 import com.ausias.inmo.entity.CiudadEntity;
 import com.ausias.inmo.entity.ComarcaEntity;
 import com.ausias.inmo.entity.TipoViviendaEntity;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,7 +20,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ComarcaRepository extends JpaRepository<ComarcaEntity, Long>{
  public Page<ComarcaEntity> findByNombreIgnoreCaseContaining(String strFilter, Pageable oPageable);
 
-    public Page<ComarcaEntity> findById(Long longCiudad, Pageable oPageable);
+    public Page<ComarcaEntity> findById(Long longComarca, Pageable oPageable);
+    
+    
+     public Page<ComarcaEntity> findByCiudadId(Long ciudad, Pageable oPageable);
 
     public Page<ComarcaEntity> findByIdAndNombreIgnoreCaseContaining(Long longCiudad, String strFilter, Pageable oPageable);
     

@@ -20,6 +20,8 @@ public interface ZonaRepository extends JpaRepository<ZonaEntity, Long>{
 
     public Page<ZonaEntity> findById(Long longZona, Pageable oPageable);
 
+         public Page<ZonaEntity> findByComarcaId(Long comarca, Pageable oPageable);
+
     public Page<ZonaEntity> findByIdAndNombreIgnoreCaseContaining(Long longZona, String strFilter, Pageable oPageable);
     
     

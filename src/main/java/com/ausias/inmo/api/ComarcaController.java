@@ -3,6 +3,7 @@ package com.ausias.inmo.api;
 import com.ausias.inmo.entity.ComarcaEntity;
 import com.ausias.inmo.entity.UsuarioEntity;
 import com.ausias.inmo.repository.ComarcaRepository;
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,7 +31,6 @@ public class ComarcaController {
 
     /*@Autowired
     TipoViviendaService oTipoProductoService;*/
-
     @Autowired
     HttpSession oHttpSession;
 
@@ -45,13 +45,22 @@ public class ComarcaController {
 
     @GetMapping("")
     public ResponseEntity<Page<ComarcaEntity>> getPage(@PageableDefault(page = 0, size = 10, direction = Sort.Direction.DESC) Pageable oPageable,
-           @RequestParam(name = "filter", required = false) String strFilter) {
+            @RequestParam(name = "filter", required = false) String strFilter) {
         Page<ComarcaEntity> oPage = null;
         if (strFilter != null) {
             oPage = oComarcaRepository.findByNombreIgnoreCaseContaining(strFilter, oPageable);
         } else {
             oPage = oComarcaRepository.findAll(oPageable);
         }
+        return new ResponseEntity<>(oPage, HttpStatus.OK);
+    }
+
+    @GetMapping("/ciudad")
+    public ResponseEntity<Page<ComarcaEntity>> getByCiudad(@PageableDefault(page = 0, size = 20, direction = Sort.Direction.DESC) Pageable oPageable,
+            @RequestParam(name = "ciudad", required = true) Long lCiudad) {
+        Page<ComarcaEntity> oPage = null;
+        oPage = oComarcaRepository.findByCiudadId(lCiudad, oPageable);
+
         return new ResponseEntity<>(oPage, HttpStatus.OK);
     }
 
@@ -170,5 +179,4 @@ public class ComarcaController {
             }
         }
     }*/
-
 }

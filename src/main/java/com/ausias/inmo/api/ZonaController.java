@@ -54,6 +54,16 @@ public class ZonaController {
         }
         return new ResponseEntity<>(oPage, HttpStatus.OK);
     }
+    
+      @GetMapping("/comarca")
+    public ResponseEntity<Page<ZonaEntity>> getByComarca(@PageableDefault(page = 0, size = 50, direction = Sort.Direction.DESC) Pageable oPageable,
+            @RequestParam(name = "comarca", required = true) Long lComarca) {
+        Page<ZonaEntity> oPage = null;
+        oPage = oZonaRepository.findByComarcaId(lComarca, oPageable);
+
+        return new ResponseEntity<>(oPage, HttpStatus.OK);
+    }
+
 
     @GetMapping("/count")
     public ResponseEntity<Long> count() {

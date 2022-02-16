@@ -55,6 +55,18 @@ public class TipoViviendaController {
         }
         return new ResponseEntity<>(oPage, HttpStatus.OK);
     }
+    
+    @GetMapping("/all")
+	 public ResponseEntity<Page<TipoViviendaEntity>> getAll(@PageableDefault(page = 0, size = 50, direction = Sort.Direction.DESC) Pageable oPageable,
+           @RequestParam(name = "filter", required = false) String strFilter) {
+        Page<TipoViviendaEntity> oPage = null;
+        if (strFilter != null) {
+            oPage = oTipoViviendaRepository.findByNombreIgnoreCaseContaining(strFilter, oPageable);
+        } else {
+            oPage = oTipoViviendaRepository.findAll(oPageable);
+        }
+        return new ResponseEntity<>(oPage, HttpStatus.OK);
+    }
 
     @GetMapping("/count")
     public ResponseEntity<Long> count() {

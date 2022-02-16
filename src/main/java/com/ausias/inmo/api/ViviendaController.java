@@ -30,7 +30,6 @@ public class ViviendaController {
 
     /*@Autowired
     TipoViviendaService oTipoProductoService;*/
-
     @Autowired
     HttpSession oHttpSession;
 
@@ -45,7 +44,7 @@ public class ViviendaController {
 
     @GetMapping("")
     public ResponseEntity<Page<ViviendaEntity>> getPage(@PageableDefault(page = 0, size = 10, direction = Sort.Direction.DESC) Pageable oPageable,
-           @RequestParam(name = "filter", required = false) String strFilter) {
+            @RequestParam(name = "filter", required = false) String strFilter) {
         Page<ViviendaEntity> oPage = null;
         if (strFilter != null) {
             oPage = oViviendaRepository.findByUbicacionIgnoreCaseContaining(strFilter, oPageable);
@@ -55,6 +54,142 @@ public class ViviendaController {
         return new ResponseEntity<>(oPage, HttpStatus.OK);
     }
 
+    @GetMapping("/busqueda")
+    public ResponseEntity<Page<ViviendaEntity>> getBusqueda(@PageableDefault(page = 0, size = 10, direction = Sort.Direction.DESC) Pageable oPageable, 
+            @RequestParam(name = "zona", required = false) Long lZona, @RequestParam(name = "ciudad", required = false) Long lCiudad, 
+            @RequestParam(name = "comarca", required = false) Long lComarca,@RequestParam(name = "accion", required = false) String accion) {
+        Page<ViviendaEntity> oPage = null;
+        if (accion.equalsIgnoreCase("alquilar")) {
+            if (lCiudad != null) {
+                if (lComarca != null) {
+                    if (lZona != null) {
+                        oPage = oViviendaRepository.findbyAlquilarZona(lZona, oPageable);
+                    } else {
+                        oPage = oViviendaRepository.findbyAlquilarComarca(lComarca, oPageable);
+                    }
+                } else {
+                    oPage = oViviendaRepository.findbyAlquilarCiudad(lCiudad, oPageable);
+                }
+            } else {
+                return new ResponseEntity<>(oPage, HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(oPage, HttpStatus.OK);
+        } else if (accion.equalsIgnoreCase("comprar")) {
+            if (lCiudad != null) {
+                if (lComarca != null) {
+                    if (lZona != null) {
+                        oPage = oViviendaRepository.findbyComprarZona(lZona, oPageable);
+                    } else {
+                        oPage = oViviendaRepository.findbyComprarComarca(lComarca, oPageable);
+                    }
+                } else {
+                    oPage = oViviendaRepository.findbyComprarCiudad(lCiudad, oPageable);
+                }
+            } else {
+                return new ResponseEntity<>(oPage, HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(oPage, HttpStatus.OK);
+        } else if (accion.equalsIgnoreCase("obranueva") ) {
+            if (lCiudad != null) {
+                if (lComarca != null) {
+                    if (lZona != null) {
+                        oPage = oViviendaRepository.findbyObranuevaZona(lZona, oPageable);
+                    } else {
+                        oPage = oViviendaRepository.findbyObranuevaComarca(lComarca, oPageable);
+                    }
+                } else {
+                    oPage = oViviendaRepository.findbyObranuevaCiudad(lCiudad, oPageable);
+                }
+            } else {
+                return new ResponseEntity<>(oPage, HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(oPage, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(oPage, HttpStatus.NOT_FOUND);
+
+        }
+
+    }
+
+//        if (lCiudad != null) {
+//            if (lComarca != null) {
+//                if (lZona != null) {
+//                    oPage = oViviendaRepository.findbyZona(lZona, oPageable);
+//                } else {
+//                    oPage = oViviendaRepository.findbyComarca(lComarca, oPageable);
+//                }
+//            } else {
+//                oPage = oViviendaRepository.findbyCiudad(lCiudad, oPageable);
+//            }
+//        } else {
+//             return new ResponseEntity<>(oPage, HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity<>(oPage, HttpStatus.OK);
+//    @GetMapping("/busqueda")
+//    public ResponseEntity<Page<ViviendaEntity>> getBusqueda(@PageableDefault(page = 0, size = 5, direction = Sort.Direction.DESC) Pageable oPageable,
+//           @RequestParam(name = "comprar", required = false) Boolean comprar,
+//           @RequestParam(name = "alquilar", required = false) Boolean alquilar, @RequestParam(name = "obranueva", required = false) Boolean obranueva,
+//           @RequestParam(name = "tipovivienda", required = false) Long tipovivienda, @RequestParam(name = "conservacion", required = false) String conservacion,
+//           @RequestParam(name = "habitaciones", required = false) Integer habitaciones, @RequestParam(name = "antiguedad", required = false) Integer antiguedad,
+//           @RequestParam(name = "profesional", required = false) Boolean profesional, @RequestParam(name = "ciudad", required = false) Long lCiudad,
+//           @RequestParam(name = "comarca", required = false) Long lComarca, @RequestParam(name = "zona", required = false) Long lZona) {
+//        Page<ViviendaEntity> oPage = null;
+//        if (alquilar==null){
+//            alquilar=false;
+//        }
+//        if (comprar==null){
+//            comprar=false;
+//        }
+//        if (obranueva==null){
+//            obranueva=false;
+//        }
+//             if (comprar == true) {
+//
+//                    if (tipovivienda != null) {
+//                        if (conservacion != null) {
+//                            if (habitaciones != null) {
+//                                if (antiguedad != null) {
+//                            if (profesional != null) {
+//                            if (lCiudad != null) {
+//                            if (lComarca != null) {
+//                            if (lZona != null) {
+//
+//                            oPage = oViviendaRepository.findByCompraAlquilarObranuevaAndTipoViviendaAndConservacionAndHabitacionesAndAntiguedadAndProfesionalAndZona(comprar,alquilar,obranueva,tipovivienda,conservacion,habitaciones, antiguedad,lZona, profesional,oPageable);
+//
+//                    } else {
+//                                oPage = oViviendaRepository.findByCompraAlquilarObranuevaAndTipoViviendaAndConservacionAndHabitacionesAndAntiguedadAndProfesionalAndComarca(comprar,alquilar,obranueva,tipovivienda,conservacion,habitaciones, antiguedad,lComarca, profesional,oPageable);
+//                            }
+//
+//
+//                    } else {
+//                                oPage = oViviendaRepository.findByCompraAlquilarObranuevaAndTipoViviendaAndConservacionAndHabitacionesAndAntiguedadAndProfesionalAndCiudad(comprar,alquilar,obranueva,tipovivienda,conservacion,habitaciones, antiguedad,lCiudad, profesional,oPageable);
+//                            }
+//
+//
+//                    }else {
+//                                oPage = oViviendaRepository.findByCompraAlquilarObranuevaAndTipoViviendaAndConservacionAndHabitacionesAndAntiguedadAndProfesional(comprar,alquilar,obranueva,tipovivienda,conservacion,habitaciones, antiguedad, profesional,oPageable);
+//                            }
+//
+//
+//                    }
+//
+//
+//                    }
+//
+//
+//                    }
+//
+//
+//                    }
+//                    }
+//                        oPage = oCompraRepository.findByFacturaIdAndCantidadOrPrecioOrFechaOrDescuentoUsuarioOrDescuentoProducto(lFactura, strFilter, strFilter, strFilter, strFilter, strFilter, oPageable);
+//                    } else {
+//                        oPage = oCompraRepository.findByFacturaId(lFactura, oPageable);
+//                    }
+//
+//        return new ResponseEntity<>(oPage, HttpStatus.OK);
+//    }
+//
     @GetMapping("/count")
     public ResponseEntity<Long> count() {
         return new ResponseEntity<Long>(oViviendaRepository.count(), HttpStatus.OK);
@@ -75,7 +210,7 @@ public class ViviendaController {
         if (oSessionUsuarioEntity == null) {
             return new ResponseEntity<Long>(0L, HttpStatus.UNAUTHORIZED);
         } else {
-            if (oSessionUsuarioEntity.getTipousuario().getId() == 1 || oViviendaEntity.getUsuario().getId()==oSessionUsuarioEntity.getId()) {
+            if (oSessionUsuarioEntity.getTipousuario().getId() == 1 || oViviendaEntity.getUsuario().getId() == oSessionUsuarioEntity.getId()) {
                 if (oViviendaRepository.existsById(id)) {
                     oViviendaRepository.deleteById(id);
                     if (oViviendaRepository.existsById(id)) {
@@ -99,14 +234,14 @@ public class ViviendaController {
         if (oSessionUsuarioEntity == null) {
             return new ResponseEntity<Long>(0L, HttpStatus.UNAUTHORIZED);
         } else {
-            if (oSessionUsuarioEntity.getTipousuario().getId() == 1 || oViviendaEntity.getUsuario().getId()==oSessionUsuarioEntity.getId()) {
-                
-                    oViviendaEntity.setId(null);
-                    return new ResponseEntity<ViviendaEntity>(oViviendaRepository.save(oViviendaEntity), HttpStatus.OK);
-                } else {
-                    return new ResponseEntity<Long>(0L, HttpStatus.UNAUTHORIZED);
-                }
-            
+            if (oSessionUsuarioEntity.getTipousuario().getId() == 1 || oViviendaEntity.getUsuario().getId() == oSessionUsuarioEntity.getId()) {
+
+                oViviendaEntity.setId(null);
+                return new ResponseEntity<ViviendaEntity>(oViviendaRepository.save(oViviendaEntity), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<Long>(0L, HttpStatus.UNAUTHORIZED);
+            }
+
         }
     }
 
@@ -117,7 +252,7 @@ public class ViviendaController {
         if (oSessionUsuarioEntity == null) {
             return new ResponseEntity<Long>(0L, HttpStatus.UNAUTHORIZED);
         } else {
-            if (oSessionUsuarioEntity.getTipousuario().getId() == 1 || oViviendaEntity.getUsuario().getId()==oSessionUsuarioEntity.getId()) {
+            if (oSessionUsuarioEntity.getTipousuario().getId() == 1 || oViviendaEntity.getUsuario().getId() == oSessionUsuarioEntity.getId()) {
                 if (oViviendaRepository.existsById(oViviendaEntity.getId())) {
                     return new ResponseEntity<ViviendaEntity>(oViviendaRepository.save(oViviendaEntity), HttpStatus.OK);
                 } else {
@@ -169,5 +304,4 @@ public class ViviendaController {
             }
         }
     }*/
-
 }
