@@ -26,22 +26,22 @@ public interface ViviendaRepository extends JpaRepository<ViviendaEntity, Long> 
     Page<ViviendaEntity> findbyZona(Long lZona,Pageable oPageable);
     
     @Query(
-            value = "SELECT * FROM vivienda WHERE idzona IN (SELECT id from comarca where id=?1)",
+            value = "SELECT * FROM vivienda WHERE idzona IN (SELECT id from zona where idcomarca=?1)",
             nativeQuery = true)
     Page<ViviendaEntity> findbyComarca(Long lComarca,Pageable oPageable);
     
     @Query(
-            value = "SELECT * FROM vivienda WHERE idzona IN (SELECT id from comarca  where id IN (SELECT id from ciudad where id=?1))",
+            value = "SELECT * FROM vivienda WHERE idzona IN (SELECT id from comarca  where idciudad IN (SELECT id from ciudad where id=?1))",
             nativeQuery = true)
     Page<ViviendaEntity> findbyCiudad(Long lCiudad,Pageable oPageable);
     
     @Query(
-            value = "SELECT * FROM vivienda WHERE alquilar=true AND idzona IN (SELECT id from comarca  where id IN (SELECT id from ciudad where id=?1))",
+            value = "SELECT * FROM vivienda WHERE alquilar=true AND idzona IN (SELECT id from comarca  where idciudad IN (SELECT id from ciudad where id=?1))",
             nativeQuery = true)
     Page<ViviendaEntity> findbyAlquilarCiudad(Long lCiudad,Pageable oPageable);
    
     @Query(
-            value = "SELECT * FROM vivienda WHERE alquilar=true AND idzona IN (SELECT id from comarca where id=?1)",
+            value = "SELECT * FROM vivienda WHERE alquilar=true AND idzona IN (SELECT id from zona where idcomarca=?1)",
             nativeQuery = true)
     Page<ViviendaEntity> findbyAlquilarComarca(Long lComarca,Pageable oPageable);
     
@@ -51,12 +51,12 @@ public interface ViviendaRepository extends JpaRepository<ViviendaEntity, Long> 
     Page<ViviendaEntity> findbyAlquilarZona(Long lZona,Pageable oPageable);
     
      @Query(
-            value = "SELECT * FROM vivienda WHERE comprar=true AND idzona IN (SELECT id from comarca  where id IN (SELECT id from ciudad where id=?1))",
+            value = "SELECT * FROM vivienda WHERE comprar=true AND idzona IN (SELECT id from comarca  where idciudad IN (SELECT id from ciudad where id=?1))",
             nativeQuery = true)
     Page<ViviendaEntity> findbyComprarCiudad(Long lCiudad,Pageable oPageable);
    
     @Query(
-            value = "SELECT * FROM vivienda WHERE comprar=true AND idzona IN (SELECT id from comarca where id=?1)",
+            value = "SELECT * FROM vivienda WHERE comprar=true AND idzona IN (SELECT id from zona where idcomarca=?1)",
             nativeQuery = true)
     Page<ViviendaEntity> findbyComprarComarca(Long lComarca,Pageable oPageable);
     

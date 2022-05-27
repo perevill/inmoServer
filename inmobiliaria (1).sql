@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 16-02-2022 a las 23:18:59
+-- Tiempo de generación: 27-05-2022 a las 14:13:12
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 8.0.11
 
@@ -64,9 +64,9 @@ CREATE TABLE `comarca` (
 
 INSERT INTO `comarca` (`id`, `nombre`, `idciudad`) VALUES
 (1, 'Quatre Carreres', 1),
-(2, 'Malillaaa', 1),
 (4, 'Ribera baja', 1),
-(5, 'Vega baja', 3);
+(5, 'Vega baja', 3),
+(6, 'El Pla del Real', 1);
 
 -- --------------------------------------------------------
 
@@ -161,7 +161,8 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`id`, `nombre`, `login`, `password`, `apellido1`, `apellido2`, `tlf`, `dni`, `codpostal`, `direccion`, `profesional`, `email`, `idtipousuario`, `validado`) VALUES
 (1, 'Pere', 'peree', 'da8ab09ab4889c6208116a675cad0b13e335943bd7fc418782d054b32fdfba04', 'Villanueva', NULL, '6666666666', '24585439C', '46026', 'Carrera Malilla 45', 1, 'correo@inmo.com', 1, 1),
-(2, 'Daniel', 'daniel', 'da8ab09ab4889c6208116a675cad0b13e335943bd7fc418782d054b32fdfba04', 'Navarro', 'Navarro', '6666666666', '24585439C', '46026', 'Carrera Malilla', 0, 'correo@inmo.com', 2, 1);
+(2, 'Daniel', 'daniel', 'da8ab09ab4889c6208116a675cad0b13e335943bd7fc418782d054b32fdfba04', 'Navarro', 'Navarro', '6666666666', '24585439C', '46026', 'Carrera Malilla', 0, 'correo@inmo.com', 2, 1),
+(4, 'Manolito', 'gafudo', '4298f843f830fb3cc13ecdfe1b2cf10f51f929df056d644d1bca73228c5e8f64', 'Gafotas', 'Gafudo', '678686966', '24585449C', '46023', 'Calle inventada 33', 0, 'manolito@gafotas.com', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -196,7 +197,8 @@ CREATE TABLE `vivienda` (
 
 INSERT INTO `vivienda` (`id`, `ubicacion`, `plano`, `precio`, `m2utiles`, `m2construidos`, `habitaciones`, `antiguedad`, `nplanta`, `exterior`, `conservacion`, `descripcion`, `idanunciante`, `idzona`, `idtipovivienda`, `comprar`, `alquilar`, `obranueva`) VALUES
 (1, 'Calle Murla 4', NULL, 25000, 50, 57, 3, 10, 3, 1, 'Obra nueva', 'PISO AMPLIO CON VISTAS AL PARQUE CENTRAL AIRE ACONDICIONADO BUENA COMUNIDAD Y ASCENSOR', 1, 1, 1, 1, 0, 0),
-(2, 'Calle Antonio Sequeros 53', NULL, 567, 127, 142, 2, 16, 4, 1, 'Necesita reforma', 'CERCA DEL CENTRO AIRE ACONDICIONADO MUY BUENAS VISTAS A LA CALLE CERCA DE SUPERMERCADO Y TIENDA DE ANIMALES', 2, 5, 1, 0, 1, 0);
+(2, 'Calle Antonio Sequeros 53', NULL, 567, 127, 142, 2, 16, 4, 1, 'Necesita reforma', 'CERCA DEL CENTRO AIRE ACONDICIONADO MUY BUENAS VISTAS A LA CALLE CERCA DE SUPERMERCADO Y TIENDA DE ANIMALES', 2, 5, 1, 0, 1, 0),
+(6, 'Avenida Aragón 40', NULL, 450000, 120, 143, 5, 6, 2, 0, 'Reformado recientemente', 'Ser los cayeron hay que interes anemica. Comodas tio oir eso uso maridos melodia sonreir atreves missure. Seduciendo me sorprendio llamaremos montaraces se oh agradecida decoracion yo.', 1, 6, 2, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -217,9 +219,10 @@ CREATE TABLE `zona` (
 
 INSERT INTO `zona` (`id`, `nombre`, `codpostal`, `idcomarca`) VALUES
 (1, 'Malilla', '46006', 1),
-(2, 'Cullera', '46404', 1),
-(3, 'Sueca', '46410', 2),
-(5, 'Almoradí', '03160', 5);
+(2, 'Cullera', '46404', 4),
+(3, 'Sueca', '46410', 4),
+(5, 'Almoradí', '03160', 5),
+(6, 'Mestalla', '46021', 6);
 
 --
 -- Índices para tablas volcadas
@@ -287,13 +290,13 @@ ALTER TABLE `zona`
 -- AUTO_INCREMENT de la tabla `ciudad`
 --
 ALTER TABLE `ciudad`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `comarca`
 --
 ALTER TABLE `comarca`
-  MODIFY `id` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `favoritos`
@@ -323,19 +326,19 @@ ALTER TABLE `tipovivienda`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `vivienda`
 --
 ALTER TABLE `vivienda`
-  MODIFY `id` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `zona`
 --
 ALTER TABLE `zona`
-  MODIFY `id` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
